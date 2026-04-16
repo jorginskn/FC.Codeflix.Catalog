@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F2144F83-2E1B-4D51-AFDA-E1B9D700CE91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F1ED1409-9297-4017-8B7B-0E7C50FCD347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FC.Codeflix.Catalog.UnitTests", "tests\FC.Codeflix.Catalog.UnitTests\FC.Codeflix.Catalog.UnitTests.csproj", "{858880E7-953B-4C3B-A5EE-E97DBAF4F409}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FC.Codeflix.Catalog.Domain", "FC.Codeflix.Catalog.Domain\FC.Codeflix.Catalog.Domain.csproj", "{7408FDB9-BFC6-4A50-AAA9-031F93558FBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{858880E7-953B-4C3B-A5EE-E97DBAF4F409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858880E7-953B-4C3B-A5EE-E97DBAF4F409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858880E7-953B-4C3B-A5EE-E97DBAF4F409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858880E7-953B-4C3B-A5EE-E97DBAF4F409}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7408FDB9-BFC6-4A50-AAA9-031F93558FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7408FDB9-BFC6-4A50-AAA9-031F93558FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7408FDB9-BFC6-4A50-AAA9-031F93558FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7408FDB9-BFC6-4A50-AAA9-031F93558FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{858880E7-953B-4C3B-A5EE-E97DBAF4F409} = {F1ED1409-9297-4017-8B7B-0E7C50FCD347}
+		{7408FDB9-BFC6-4A50-AAA9-031F93558FBC} = {F2144F83-2E1B-4D51-AFDA-E1B9D700CE91}
+	EndGlobalSection
+EndGlobal
