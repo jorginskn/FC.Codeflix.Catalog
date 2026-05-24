@@ -13,7 +13,7 @@ public class DomainValidation
     {
         if (string.IsNullOrWhiteSpace(target))
         {
-            throw new Exceptions.EntityValidationException($"The {fieldName} should not be null or empty");
+            throw new Exceptions.EntityValidationException($"The {fieldName} should not be empty or null");
         }
     }
 

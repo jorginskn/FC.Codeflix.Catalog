@@ -34,7 +34,7 @@ public class DomainValidationTest
     {
         Action action = () => DomainValidation.NotNullOrEmpty(target, "fieldName");
         action.Should().Throw<EntityValidationException>()
-             .WithMessage("The fieldName should not be null or empty");
+             .WithMessage("The fieldName should not be empty or null");
     }
 
     [Fact(DisplayName = nameof(NotNullOrEmptyOk))]
