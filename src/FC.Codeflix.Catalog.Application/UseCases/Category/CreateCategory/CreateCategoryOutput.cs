@@ -19,4 +19,7 @@ public class CreateCategoryOutput
         IsActive = isActive;
         CreatedAt = createdAt;
     }
+
+    public static CreateCategoryOutput FromCategory(Domain.Entity.Category category)
+        => new CreateCategoryOutput(category.Id, category.Name, category.Description, category.IsActive, category.CreatedAt);
 }

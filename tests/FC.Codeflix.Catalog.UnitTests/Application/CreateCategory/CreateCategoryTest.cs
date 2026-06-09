@@ -31,9 +31,9 @@ public class CreateCategoryTest
         repositoryMock.Verify(repository => repository.Insert(It.IsAny<Category>(), It.IsAny<CancellationToken>()), Times.Once());
         unitOfWorkMock.Verify(uow => uow.Commit(It.IsAny<CancellationToken>()), Times.Once());
         output.Should().NotBeNull();
-        output.Name.Should().Be("category name");
-        output.Description.Should().Be("category description");
-        output.IsActive.Should().Be(true);
+        output.Name.Should().Be(input.Name);
+        output.Description.Should().Be(input.Description);
+        output.IsActive.Should().Be(input.IsActive);
         output.Id.Should().NotBeEmpty();
         (output.CreatedAt != DateTime.MinValue).Should().BeTrue(); 
     }
