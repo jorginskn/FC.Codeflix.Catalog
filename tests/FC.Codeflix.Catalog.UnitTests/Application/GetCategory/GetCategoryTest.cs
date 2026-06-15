@@ -3,6 +3,9 @@ using FC.Codeflix.Catalog.Application.UseCases.Category.GetCategory;
 using FluentAssertions;
 using Moq;
 using UseCases = FC.Codeflix.Catalog.Application.UseCases.Category.GetCategory;
+using DomainEntity = FC.Codeflix.Catalog.Domain.Entity.Category;
+using FC.Codeflix.Catalog.Domain.Entity;
+using FC.Codeflix.Catalog.Application.Exceptions;
 
 namespace FC.Codeflix.Catalog.UnitTests.Application.GetCategory;
 [Collection(nameof(GetCategoryTestFixtureCollection))]
@@ -33,5 +36,18 @@ public class GetCategoryTest
         (output.CreatedAt != DateTime.MinValue).Should().BeTrue();
     }
 
-
+    [Fact(DisplayName = nameof(GetCategory_NotFound))]
+    [Trait("Application", "GetCategory - Use Cases")]
+    public async Task GetCategory_NotFound()
+    {
+        var repositoryMock = _fixture.GetRepositoryMock();
+        var exampleGuid = Guid.NewGuid();
+        repositoryMock.Setup(x => x.Get(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new NotFoundException($"Category '{exampleGuid}' not found"));
+        var input = new GetCategoryInput(exampleGuid);
+        var useCase = new UseCases.GetCategory(repositoryMock.Object);
+        var act = async () => await useCase.Handle(input, CancellationToken.None);
+        act.Should().ThrowAsync<NotFoundException>();
+        repositoryMock.Verify(x => x.Get(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
 }

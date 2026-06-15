@@ -1,14 +1,13 @@
-﻿ 
-namespace FC.Codeflix.Catalog.Application.UseCases.Category.GetCategory;
-public class GetCategoryOutput
-{
+﻿namespace FC.Codeflix.Catalog.Application.UseCases.Category.Common;
 
+public class CategoryModelOutput
+{
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
-    public GetCategoryOutput(
+    public CategoryModelOutput(
        Guid Id,
        string name,
        string? description,
@@ -22,6 +21,8 @@ public class GetCategoryOutput
         CreatedAt = createdAt;
     }
 
-    public static GetCategoryOutput FromCategory(Domain.Entity.Category category)
-        => new GetCategoryOutput(category.Id, category.Name, category.Description, category.IsActive, category.CreatedAt);
+    public static CategoryModelOutput FromCategory(Domain.Entity.Category category)
+        => new  (category.Id, category.Name, category.Description, category.IsActive, category.CreatedAt);
 }
+
+
