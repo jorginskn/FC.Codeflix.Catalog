@@ -31,6 +31,43 @@ public class UpdateCategoryTest
         repositoryMock.Verify(x => x.Update(categoryExample, It.IsAny<CancellationToken>()), Times.Once);
         unitOfWorkMock.Verify(x => x.Commit(It.IsAny<CancellationToken>()), Times.Once);
     }
+    [Theory(DisplayName = nameof(UpdateCategoryOnlyName))]
+    [Trait("Application", "UpdateCategory - Use Cases")]
+    [MemberData(nameof(UpdateCategoryTestDataGenerator.GetCategoriesToUpdate), parameters: 10, MemberType = typeof(UpdateCategoryTestDataGenerator))]
+    public async Task UpdateCategoryOnlyName(Category categoryExample, UpdateCategoryInput exampleInput)
+    {
+        var input = new UpdateCategoryInput(exampleInput.Id, exampleInput.Name);
+        var repositoryMock = _fixture.GetRepositoryMock();
+        var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
+        repositoryMock.Setup(x => x.Get(categoryExample.Id, It.IsAny<CancellationToken>())).ReturnsAsync(categoryExample);
+        var useCase = new UseCase.UpdateCategory(repositoryMock.Object, unitOfWorkMock.Object);
+        CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
+        output.Name.Should().Be(categoryExample.Name);
+        output.Description.Should().Be(categoryExample.Description);
+        output.IsActive.Should().Be(categoryExample.IsActive);
+        repositoryMock.Verify(x => x.Get(categoryExample.Id, It.IsAny<CancellationToken>()), Times.Once);
+        repositoryMock.Verify(x => x.Update(categoryExample, It.IsAny<CancellationToken>()), Times.Once);
+        unitOfWorkMock.Verify(x => x.Commit(It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Theory(DisplayName = nameof(UpdateCategoryWithoutProvidingIsActive))]
+    [Trait("Application", "UpdateCategory - Use Cases")]
+    [MemberData(nameof(UpdateCategoryTestDataGenerator.GetCategoriesToUpdate), parameters: 10, MemberType = typeof(UpdateCategoryTestDataGenerator))]
+    public async Task UpdateCategoryWithoutProvidingIsActive(Category categoryExample, UpdateCategoryInput exampleInput)
+    {
+        var input = new UpdateCategoryInput(exampleInput.Id, exampleInput.Name, exampleInput.Description);
+        var repositoryMock = _fixture.GetRepositoryMock();
+        var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
+        repositoryMock.Setup(x => x.Get(categoryExample.Id, It.IsAny<CancellationToken>())).ReturnsAsync(categoryExample);
+        var useCase = new UseCase.UpdateCategory(repositoryMock.Object, unitOfWorkMock.Object);
+        CategoryModelOutput output = await useCase.Handle(input, CancellationToken.None);
+        output.Name.Should().Be(categoryExample.Name);
+        output.Description.Should().Be(categoryExample.Description);
+        output.IsActive.Should().Be(categoryExample.IsActive);
+        repositoryMock.Verify(x => x.Get(categoryExample.Id, It.IsAny<CancellationToken>()), Times.Once);
+        repositoryMock.Verify(x => x.Update(categoryExample, It.IsAny<CancellationToken>()), Times.Once);
+        unitOfWorkMock.Verify(x => x.Commit(It.IsAny<CancellationToken>()), Times.Once);
+    }
 
 
     [Fact(DisplayName = nameof(ThrowWhenCategoryNotFound))]
