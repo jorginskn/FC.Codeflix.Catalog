@@ -1,4 +1,5 @@
-﻿using FC.Codeflix.Catalog.Domain.Entity;
+﻿using FC.Codeflix.Catalog.Application.UseCases.Category.ListCategories;
+using FC.Codeflix.Catalog.Domain.Entity;
 using FC.Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,12 +21,7 @@ public class ListCategoriesTest
     public async Task ListCategories()
     {
        var repositoryMock = _fixture.GetRepositoryMock();
-        var input = new UseCases.ListCategoriesInput(
-            page: 2,
-            perPage: 15,
-            search: "search example",
-            sort: "name",
-            dir: SearchOrder.ASC);
+        var input = _fixture.GetExampleInput();
         var outputRepositorySearch = new SearchOutput<Category>(
             currentPage: input.Page,
             perPage: input.PerPage,
@@ -60,4 +56,6 @@ public class ListCategoriesTest
             && searchInput.OrderBy == input.Sort 
             && searchInput.Order == input.Dir), It.IsAny<CancellationToken>()), Times.Once);
     }
+
+  
 }
