@@ -14,13 +14,23 @@ public class CategoryRepository : ICategoryRepository
     {
         _context = context;
     }
-    public Task<SearchOutput<Category>> Search(SearchInput input, CancellationToken cancellationToken)
+    public async Task<SearchOutput<Category>> Search(SearchInput input, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var toSkip = (input.Page - 1) * input.PerPage;
+        var query = _categories.AsNoTracking();
+        if (!String.IsNullOrWhiteSpace(input.Search))
+        {
+            query = query.Where(c => c.Name.Contains(input.Search));
+        }
+        var total = await query.CountAsync(cancellationToken);
+        var items = await query.Skip(toSkip).Take(input.PerPage).ToListAsync(cancellationToken);
+        return new (input.Page, input.PerPage, total, items);
     }
+
     public async Task<Category> Get(Guid id, CancellationToken cancellationToken)
     {
-        var category = await _categories.FindAsync(new object[] { id }, cancellationToken);
+        var total = await _categories.CountAsync(cancellationToken);
+        var category = await _categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         if (category is null)
             NotFoundException.ThrowIfNull(category, $"Category '{id}' not found.");
         return category!;
@@ -33,8 +43,9 @@ public class CategoryRepository : ICategoryRepository
     }
 
     public Task Delete(Category aggregate, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
+    {       
+        _categories.Remove(aggregate);
+        return Task.CompletedTask;
     }
 
 

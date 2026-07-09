@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.Repositories.CategoryRepository;
 [CollectionDefinition(nameof(CategoryRepositoryTestFixtureCollection))]
 public class CategoryRepositoryTestFixtureCollection : ICollectionFixture<CategoryRepositoryTestFixture> { }
- 
+
 public class CategoryRepositoryTestFixture : BaseFixture
 {
- 
+
 
     public string GetValidCategoryName()
     {
@@ -47,9 +47,15 @@ public class CategoryRepositoryTestFixture : BaseFixture
 
     public List<Category> GetValidCategoryList(int lenght = 10) => Enumerable.Range(1, lenght).Select(_ => GetValidCategory()).ToList();
 
-    public CodeflixCatalogDbContext CreateDbContext()=> new (new DbContextOptionsBuilder<CodeflixCatalogDbContext>()
-            .UseInMemoryDatabase($"Integration-tests-db ")
-            .Options
-        );
-
+    public CodeflixCatalogDbContext CreateDbContext(bool preserveData = false)
+    {
+        var context = new CodeflixCatalogDbContext(new DbContextOptionsBuilder<CodeflixCatalogDbContext>()
+             .UseInMemoryDatabase($"Integration-tests-db ")
+             .Options);
+        if (preserveData == false)
+        {
+            context.Database.EnsureDeleted();
+        }
+        return context;
+    }
 }
