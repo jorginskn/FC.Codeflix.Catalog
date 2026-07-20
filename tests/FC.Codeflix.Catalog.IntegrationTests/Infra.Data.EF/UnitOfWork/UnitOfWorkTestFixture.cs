@@ -43,4 +43,16 @@ public class UnitOfWorkTestFixture : BaseFixture
     public Category GetValidCategory() => new(GetValidCategoryName(), GetValidCategoryDescription(), GetRandomBoolean());
 
     public List<Category> GetValidCategoryList(int lenght = 10) => Enumerable.Range(1, lenght).Select(_ => GetValidCategory()).ToList();
+
+    public CodeflixCatalogDbContext CreateDbContext(bool preserveData = false)
+    {
+        var context = new CodeflixCatalogDbContext(new DbContextOptionsBuilder<CodeflixCatalogDbContext>()
+            .UseInMemoryDatabase("Integration-tests-db")
+            .Options);
+        if (preserveData == false)
+        {
+            context.Database.EnsureDeleted();
+        }
+        return context;
+    }
     }
